@@ -1,0 +1,7 @@
+<% if user_signed_in? %>
+  <%= form_with model: [post, Comment.new] do |form| %>
+    <%= form.hidden_field :parent_id, value: comment.id if comment.present? %>
+    <%= form.text_area :content %>
+    <%= form.submit %>
+  <% end %>
+<% end %>

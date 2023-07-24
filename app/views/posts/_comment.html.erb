@@ -1,0 +1,17 @@
+<div class="comment" style="margin-left: 10px;">
+  <p><%= comment.content %></p>
+  <p><%= comment.score %></p>
+  <% if vote = (current_user&.votes & comment.votes).try(:first) %>
+    <p class="ms-2">vote：<%= button_to 'unvote', upvote_comment_path(comment), method: :patch, class: 'btn btn-danger me-2' %></p>
+  <% else %>
+    <p class="ms-2">vote：<%= button_to 'upvote', upvote_comment_path(comment), method: :patch, class: 'btn btn-success me-2' %></p>
+  <% end %>
+
+  <%= render partial: "form", locals: { post: post, comment: comment } %>
+
+  <% if nested_comments.present? %>
+    <% order_children_comments_by_score(nested_comments).each do |nested_comment, nested_nested_comments| %>
+      <%= render partial: "comment", locals: { post: post, comment: nested_comment, nested_comments: nested_nested_comments } %>
+    <% end %>
+  <% end %>
+</div>

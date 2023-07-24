@@ -1,0 +1,11 @@
+<div><p>Title: <%= @post.title %></div>
+<div><p>Content: <%= @post.content %></div>
+<div><p>Post by: <%= split_email @post.user.email %></div>
+<div><p>CreatedAt: <%= time_zone @post.created_at%></div>
+
+<p>Comment</p>
+<% @post.comments.arrange(order: "created_at DESC").each do |comment, nested_comments| %>
+  <%= render partial: "comment", locals: { post: @post, comment: comment, nested_comments: nested_comments } %>
+<% end %>
+
+<%= render partial: "form", locals: { post: @post, comment: Comment.new } %>
